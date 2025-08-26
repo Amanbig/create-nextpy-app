@@ -82,7 +82,7 @@ async function createProjectStructure(projectName, languageChoice = 'JavaScript'
   try {
     // copy backend boilerplate files
     spinner.text = 'Setting up backend files...';
-    const files = ["requirements.txt", "app.py", ".gitignore", ".env", "package.json"];
+    const files = ["requirements.txt", "app.py", ".gitignore", ".env", "package.json", "README.md"];
     for (const file of files) {
       await fs.cp(path.join(backendTemplateDir, file), path.join(backendPath, file));
     }

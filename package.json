@@ -1,0 +1,23 @@
+{
+  "name": "nextpython",
+  "version": "1.0.0",
+  "description": "This is a cli that creates a nextjs frontend along with python backend using fastapi",
+  "main": "index.js",
+  "type": "module",
+  "bin": {
+    "nextpython": "index.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Amanpreet Singh",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^5.6.0",
+    "commander": "^14.0.0",
+    "figlet": "^1.8.2",
+    "inquirer": "^12.9.4",
+    "npm-programmatic": "^0.0.12",
+    "ora": "^8.2.0"
+  }
+}

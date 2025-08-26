@@ -1,4 +1,4 @@
-# NextPython Full-Stack Project
+# NextPy Full-Stack Project
 
 A full-stack application combining NextJS frontend with Python FastAPI backend.
 

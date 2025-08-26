@@ -1,5 +1,5 @@
 {
-  "name": "nextpython-project",
+  "name": "create-nextpy-project",
   "version": "1.0.0",
   "description": "NextJS + Python FastAPI full-stack application",
   "scripts": {

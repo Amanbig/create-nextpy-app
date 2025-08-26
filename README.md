@@ -1,4 +1,4 @@
-# NextPython CLI
+# NextPy CLI
 
 A powerful command-line tool for creating full-stack applications with NextJS frontend and Python FastAPI backend.
 
@@ -6,11 +6,21 @@ A powerful command-line tool for creating full-stack applications with NextJS fr
 
 ```bash
 # Using npx (recommended)
-npx nextpython
+npx create-nextpy-app
 
 # Or install globally
-npm install -g nextpython
-nextpython
+npm install -g create-next```bash
+# Clone the repository
+git clone https://github.com/your-username/create-nextpy-app.git
+cd create-nextpy-app
+
+# Install dependencies
+npm install
+
+# Test locally
+npm link
+create-nextpy-app --help
+```te-nextpy-app
 ```
 
 ## ✨ Features
@@ -31,7 +41,7 @@ nextpython
 ### Interactive Mode (Recommended)
 
 ```bash
-npx nextpython
+npx create-nextpy-app
 ```
 
 The CLI will prompt you for:
@@ -42,7 +52,7 @@ The CLI will prompt you for:
 ### Command Line Options
 
 ```bash
-npx nextpython [options]
+npx create-nextpy-app [options]
 
 Options:
   -p, --project <name>     Specify project name
@@ -57,13 +67,13 @@ Options:
 
 ```bash
 # Create TypeScript project with Tailwind CSS
-npx nextpython --project my-app --language TypeScript --tailwind Yes
+npx create-nextpy-app --project my-app --language TypeScript --tailwind Yes
 
 # Create JavaScript project without Tailwind CSS
-npx nextpython -p simple-app -l JavaScript -t No
+npx create-nextpy-app -p simple-app -l JavaScript -t No
 
 # Interactive mode (prompts for all options)
-npx nextpython
+npx create-nextpy-app
 ```
 
 ## 📁 Generated Project Structure
@@ -265,15 +275,15 @@ Error: Port 3000/8000 already in use
 
 ```bash
 # Clone the repository
-git clone https://github.com/Amanbig/NextPython-cli.git
-cd NextPython-cli
+git clone https://github.com/Amanbig/create-nextpy-app.git
+cd create-nextpy-app
 
 # Install dependencies
 npm install
 
 # Test locally
 npm link
-nextpython --help
+create-nextpy-app --help
 ```
 
 ### Contributing
@@ -328,8 +338,8 @@ Contributions are welcome! Please read our contributing guidelines and submit pu
 ## 📞 Support
 
 - 📧 **Email**: [amanpreetsinghjhiwant7@gmail.com]
-- 🐛 **Issues**: [GitHub Issues](https://github.com/Amanbig/NextPython-cli/issues)
-- 💬 **Discussions**: [GitHub Discussions](https://github.com/Amanbig/NextPython-cli/discussions)
+- 🐛 **Issues**: [GitHub Issues](https://github.com/Amanbig/create-nextpy-app/issues)
+- 💬 **Discussions**: [GitHub Discussions](https://github.com/Amanbig/create-nextpy-app/discussions)
 
 ---
 

@@ -1,11 +1,11 @@
 {
-  "name": "nextpython",
-  "version": "1.0.1",
+  "name": "create-nextpy-app",
+  "version": "1.0.0",
   "description": "A powerful CLI tool for creating full-stack applications with NextJS frontend and Python FastAPI backend. Features interactive setup, cross-platform support, and pre-configured API routes.",
   "main": "index.js",
   "type": "module",
   "bin": {
-    "nextpython": "index.js"
+    "create-nextpy-app": "index.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -36,7 +36,7 @@
     "cross-platform",
     "development-tools",
     "project-generator",
-    "nextpython"
+    "create-nextpy-app"
   ],
   "author": {
     "name": "Amanpreet Singh",
@@ -46,12 +46,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Amanbig/NextPython.git"
+    "url": "https://github.com/Amanbig/create-nextpy-app.git"
   },
   "bugs": {
-    "url": "https://github.com/Amanbig/NextPython/issues"
+    "url": "https://github.com/Amanbig/create-nextpy-app/issues"
   },
-  "homepage": "https://github.com/Amanbig/NextPython#readme",
+  "homepage": "https://github.com/Amanbig/create-nextpy-app#readme",
   "engines": {
     "node": ">=18.0.0",
     "npm": ">=8.0.0"

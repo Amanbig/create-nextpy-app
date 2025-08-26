@@ -18,10 +18,10 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 // Detect operating system
 const isWindows = os.platform() === 'win32';
 
-console.log(chalk.cyan(figlet.textSync('NextPython')));
+console.log(chalk.cyan(figlet.textSync('NextPy')));
 
 program
-    .name('nextpython')
+    .name('create-nextpy-app')
     .description('CLI tool to generate nextjs frontend with python backend')
     .version('1.0.0')
     .option('-p, --project <name>', 'Specify project name')

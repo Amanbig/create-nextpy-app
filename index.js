@@ -60,6 +60,49 @@ async function promptInputs(options) {
 }
 
 async function createProjectStructure(projectName, languageChoice = 'JavaScript', useTailwind = false) {
+  const backendTemplateDir = path.join(__dirname, 'backend_folder');
+  const projectPath = path.join(process.cwd(), projectName);
+  const frontendPath = path.join(projectPath, 'frontend');
+  const backendPath = path.join(projectPath, 'backend');
+  const spinner = ora('Creating project structure...').start();
 
-    
+  await fs.mkdir(projectPath, { recursive: true });
+  await fs.mkdir(backendPath);
+
+  try {
+    // copy backend boilerplate files
+    const files = ["requirements.txt", "app.py", ".gitignore", ".env"];
+    for (const file of files) {
+      await fs.cp(path.join(backendTemplateDir, file), path.join(backendPath, file));
+    }
+
+    // backend setup
+    await execAsync(`python3 -m venv venv`, { cwd: backendPath });
+    await execAsync(`venv/bin/pip install -r requirements.txt`, { cwd: backendPath });
+
+    // frontend setup
+    const langFlag = languageChoice === "TypeScript" ? "--typescript" : "";
+    const twFlag = useTailwind === "Yes" ? "--tailwind" : "";
+    await execAsync(
+      `npx create-next-app@latest frontend ${langFlag} ${twFlag} --eslint --app --src-dir --import-alias "@/*"`,
+      { cwd: projectPath, stdio: "inherit" }
+    );
+
+    spinner.succeed(chalk.green(`Project created successfully! 🚀`));
+  } catch (err) {
+    spinner.fail(chalk.red(`Error: ${err.message}`));
+    process.exit(1);
+  }
 }
+
+
+program.action(async (options) => {
+    const answers = await promptInputs(options);
+    const projectName = options.project || answers.project || 'my-app';
+    const language = options.language || answers.language || 'JavaScript';
+    const useTailwind = options.tailwind || answers.tailwind || 'Yes';
+
+    await createProjectStructure(projectName, language, useTailwind);
+});
+
+program.parse(process.argv);

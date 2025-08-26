@@ -1,3 +1,5 @@
+![backtool](https://socialify.git.ci/Amanbig/create-nextpy-app/image?font=Source+Code+Pro&language=1&name=1&owner=1&pattern=Brick+Wall&theme=Dark)
+
 # NextPy CLI
 
 A powerful command-line tool for creating full-stack applications with NextJS frontend and Python FastAPI backend.

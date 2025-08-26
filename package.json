@@ -1,17 +1,68 @@
 {
   "name": "nextpython",
   "version": "1.0.0",
-  "description": "This is a cli that creates a nextjs frontend along with python backend using fastapi",
+  "description": "A powerful CLI tool for creating full-stack applications with NextJS frontend and Python FastAPI backend. Features interactive setup, cross-platform support, and pre-configured API routes.",
   "main": "index.js",
   "type": "module",
   "bin": {
     "nextpython": "index.js"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "dev": "node index.js"
   },
-  "author": "Amanpreet Singh",
-  "license": "ISC",
+  "keywords": [
+    "nextjs",
+    "python",
+    "fastapi",
+    "full-stack",
+    "cli",
+    "react",
+    "typescript",
+    "javascript",
+    "tailwind",
+    "api",
+    "backend",
+    "frontend",
+    "scaffold",
+    "generator",
+    "boilerplate",
+    "template",
+    "web-development",
+    "rapid-prototyping",
+    "uvicorn",
+    "cors",
+    "cross-platform",
+    "development-tools",
+    "project-generator",
+    "nextpython"
+  ],
+  "author": {
+    "name": "Amanpreet Singh",
+    "email": "amanpreetsinghjhiwant7@gmail.com",
+    "url": "https://github.com/Amanbig"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Amanbig/NextPython.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Amanbig/NextPython/issues"
+  },
+  "homepage": "https://github.com/Amanbig/NextPython#readme",
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
+  "preferGlobal": true,
+  "files": [
+    "index.js",
+    "backend_folder/**/*",
+    "frontend_folder/**/*",
+    "README.md"
+  ],
   "dependencies": {
     "chalk": "^5.6.0",
     "commander": "^14.0.0",

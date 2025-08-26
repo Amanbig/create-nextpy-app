@@ -75,10 +75,12 @@ async function createProjectStructure(projectName, languageChoice = 'JavaScript'
   const spinner = ora('Creating project structure...').start();
 
   await fs.mkdir(projectPath, { recursive: true });
+  await fs.mkdir(frontendPath);
   await fs.mkdir(backendPath);
 
   try {
     // copy backend boilerplate files
+    spinner.text = 'Setting up backend files...';
     const files = ["requirements.txt", "app.py", ".gitignore", ".env"];
     for (const file of files) {
       await fs.cp(path.join(backendTemplateDir, file), path.join(backendPath, file));
@@ -94,46 +96,73 @@ async function createProjectStructure(projectName, languageChoice = 'JavaScript'
     await execAsync(`${pipPath} install -r requirements.txt`, { cwd: backendPath });
 
     // frontend setup
-    spinner.text = 'Creating NextJS application...';
+    spinner.text = 'Creating NextJS application (this may take a few minutes)...';
     const langFlag = languageChoice === "TypeScript" ? "--typescript" : "";
     const twFlag = useTailwind === "Yes" ? "--tailwind" : "";
-    await execAsync(
-      `npx create-next-app@latest frontend ${langFlag} ${twFlag} --eslint --app --src-dir --import-alias "@/*"`,
-      { cwd: projectPath }
-    );
+    
+    // Use more reliable flags and timeout handling
+    const createNextCommand = `npx create-next-app@latest frontend ${langFlag} ${twFlag} --eslint --app --src-dir --import-alias "@/*"`;
+    
+    try {
+      // Set environment variables to prevent interactive prompts
+      const execOptions = { 
+        cwd: projectPath,
+        timeout: 300000, // 5 minute timeout
+        env: { 
+          ...process.env, 
+          CI: 'true',
+          FORCE_COLOR: '0'
+        }
+      };
+      
+      await execAsync(createNextCommand, execOptions);
+    } catch (error) {
+      if (error.signal === 'SIGTERM' || error.code === 'TIMEOUT') {
+        spinner.fail(chalk.red('NextJS creation timed out.'));
+        console.log(chalk.yellow('\n⚠️  Troubleshooting suggestions:'));
+        console.log(chalk.white('1. Check your internet connection'));
+        console.log(chalk.white('2. Try running the command manually:'));
+        console.log(chalk.gray(`   cd ${projectName}`));
+        console.log(chalk.gray(`   ${createNextCommand}`));
+        console.log(chalk.white('3. Clear npm cache: npm cache clean --force'));
+        throw new Error('NextJS creation timed out');
+      }
+      throw error;
+    }
 
     // Copy frontend template files to the created NextJS app
     spinner.text = 'Adding custom frontend components...';
     const frontendSrcPath = path.join(frontendPath, 'src');
     
-    // Copy API routes
-    await fs.cp(
-      path.join(frontendTemplateDir, 'src', 'app', 'api'),
-      path.join(frontendSrcPath, 'app', 'api'),
-      { recursive: true }
-    );
+    // Determine file extensions based on language choice
+    const isTypeScript = languageChoice === 'TypeScript';
+    const ext = isTypeScript ? 'ts' : 'js';
+    const componentExt = isTypeScript ? 'tsx' : 'jsx';
     
-    // Copy components
-    await fs.cp(
-      path.join(frontendTemplateDir, 'src', 'components'),
-      path.join(frontendSrcPath, 'components'),
-      { recursive: true }
-    );
+    // Copy API routes with correct extension
+    const apiRouteSrc = path.join(frontendTemplateDir, 'src', 'app', 'api', 'backend', `route.${ext}`);
+    const apiRouteDest = path.join(frontendSrcPath, 'app', 'api', 'backend');
+    await fs.mkdir(apiRouteDest, { recursive: true });
+    await fs.cp(apiRouteSrc, path.join(apiRouteDest, `route.${ext}`));
     
-    // Copy lib utilities
-    await fs.cp(
-      path.join(frontendTemplateDir, 'src', 'lib'),
-      path.join(frontendSrcPath, 'lib'),
-      { recursive: true }
-    );
+    // Copy components with correct extension
+    const componentSrc = path.join(frontendTemplateDir, 'src', 'components', `BackendDemo.${componentExt}`);
+    const componentDestDir = path.join(frontendSrcPath, 'components');
+    await fs.mkdir(componentDestDir, { recursive: true });
+    await fs.cp(componentSrc, path.join(componentDestDir, `BackendDemo.${componentExt}`));
     
-    // Copy updated page.tsx
-    await fs.cp(
-      path.join(frontendTemplateDir, 'src', 'app', 'page.tsx'),
-      path.join(frontendSrcPath, 'app', 'page.tsx')
-    );
+    // Copy lib utilities with correct extension
+    const libSrc = path.join(frontendTemplateDir, 'src', 'lib', `api.${ext}`);
+    const libDestDir = path.join(frontendSrcPath, 'lib');
+    await fs.mkdir(libDestDir, { recursive: true });
+    await fs.cp(libSrc, path.join(libDestDir, `api.${ext}`));
+    
+    // Copy updated page with correct extension
+    const pageSrc = path.join(frontendTemplateDir, 'src', 'app', `page.${componentExt}`);
+    await fs.cp(pageSrc, path.join(frontendSrcPath, 'app', `page.${componentExt}`));
     
     // Copy environment and README files
+    spinner.text = 'Adding configuration files...';
     await fs.cp(
       path.join(frontendTemplateDir, '.env.local'),
       path.join(frontendPath, '.env.local')

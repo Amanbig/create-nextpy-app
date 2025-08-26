@@ -1,0 +1,39 @@
+{
+  "name": "nextpython-project",
+  "version": "1.0.0",
+  "description": "NextJS + Python FastAPI full-stack application",
+  "scripts": {
+    "dev": "concurrently \"npm run backend\" \"npm run frontend\"",
+    "frontend": "cd frontend && npm run dev",
+    "backend": "cd backend && npm run start",
+    "backend:dev": "cd backend && npm run dev",
+    "build": "cd frontend && npm run build",
+    "start": "concurrently \"npm run backend:prod\" \"npm run frontend:start\"",
+    "frontend:start": "cd frontend && npm start",
+    "backend:prod": "cd backend && npm run start",
+    "install:all": "npm install && cd frontend && npm install",
+    "clean": "cd frontend && rm -rf .next node_modules && cd ../backend && rm -rf __pycache__ .pytest_cache",
+    "setup": "npm run install:all && npm run backend:setup",
+    "backend:setup": "cd backend && python -m venv venv && npm run backend:install",
+    "backend:install": "cd backend && (if exist venv\\\\Scripts\\\\activate.bat (venv\\\\Scripts\\\\pip install -r requirements.txt) else (venv/bin/pip install -r requirements.txt))",
+    "test": "cd frontend && npm test",
+    "lint": "cd frontend && npm run lint"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
+  "keywords": [
+    "nextjs",
+    "python",
+    "fastapi",
+    "fullstack",
+    "react",
+    "typescript"
+  ],
+  "author": "",
+  "license": "MIT"
+}

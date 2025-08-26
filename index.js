@@ -81,7 +81,7 @@ async function createProjectStructure(projectName, languageChoice = 'JavaScript'
   try {
     // copy backend boilerplate files
     spinner.text = 'Setting up backend files...';
-    const files = ["requirements.txt", "app.py", ".gitignore", ".env"];
+    const files = ["requirements.txt", "app.py", ".gitignore", ".env", "package.json"];
     for (const file of files) {
       await fs.cp(path.join(backendTemplateDir, file), path.join(backendPath, file));
     }
@@ -172,11 +172,32 @@ async function createProjectStructure(projectName, languageChoice = 'JavaScript'
       path.join(frontendTemplateDir, 'README.md'),
       path.join(frontendPath, 'README.md')
     );
+    
+    // Copy project-level package.json for convenient scripts
+    await fs.cp(
+      path.join(frontendTemplateDir, 'project-package.json'),
+      path.join(projectPath, 'package.json')
+    );
+    
+    // Copy project README
+    await fs.cp(
+      path.join(frontendTemplateDir, 'project-README.md'),
+      path.join(projectPath, 'README.md')
+    );
+    
+    // Install concurrently in the project root
+    spinner.text = 'Installing project dependencies...';
+    await execAsync('npm install', { cwd: projectPath });
 
     spinner.succeed(chalk.green(`Project created successfully! 🚀`));
     
     // Display setup instructions
-    console.log(chalk.cyan('\n📋 Setup Instructions:'));
+    console.log(chalk.cyan('\n📋 Quick Start:'));
+    console.log(chalk.white('Run both frontend and backend together:'));
+    console.log(chalk.green(`   cd ${projectName}`));
+    console.log(chalk.green('   npm run dev'));
+    
+    console.log(chalk.cyan('\n📋 Manual Setup (if needed):'));
     console.log(chalk.white('1. Backend setup:'));
     console.log(chalk.gray(`   cd ${projectName}\\backend`));
     
@@ -188,12 +209,19 @@ async function createProjectStructure(projectName, languageChoice = 'JavaScript'
       console.log(chalk.gray('   source venv/bin/activate'));
     }
     
-    console.log(chalk.gray('   uvicorn app:app --reload'));
+    console.log(chalk.gray('   npm run dev  # or uvicorn app:app --reload'));
     
     console.log(chalk.white('\n2. Frontend setup:'));
     console.log(chalk.gray(`   cd ${projectName}\\frontend`));
     console.log(chalk.gray('   npm install'));
     console.log(chalk.gray('   npm run dev'));
+    
+    console.log(chalk.cyan('\n🚀 Available Scripts:'));
+    console.log(chalk.white('   npm run dev          - Run both frontend & backend'));
+    console.log(chalk.white('   npm run frontend     - Run only frontend'));
+    console.log(chalk.white('   npm run backend      - Run only backend'));
+    console.log(chalk.white('   npm run build        - Build frontend for production'));
+    console.log(chalk.white('   npm run install:all  - Install all dependencies'));
     
     console.log(chalk.cyan('\n🌐 URLs:'));
     console.log(chalk.white('   Backend:  http://localhost:8000'));

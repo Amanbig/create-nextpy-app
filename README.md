@@ -265,8 +265,8 @@ Error: Port 3000/8000 already in use
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/nextpython-cli.git
-cd nextpython-cli
+git clone https://github.com/Amanbig/NextPython-cli.git
+cd NextPython-cli
 
 # Install dependencies
 npm install
@@ -327,9 +327,9 @@ Contributions are welcome! Please read our contributing guidelines and submit pu
 
 ## 📞 Support
 
-- 📧 **Email**: [your-email@example.com]
-- 🐛 **Issues**: [GitHub Issues](https://github.com/your-username/nextpython-cli/issues)
-- 💬 **Discussions**: [GitHub Discussions](https://github.com/your-username/nextpython-cli/discussions)
+- 📧 **Email**: [amanpreetsinghjhiwant7@gmail.com]
+- 🐛 **Issues**: [GitHub Issues](https://github.com/Amanbig/NextPython-cli/issues)
+- 💬 **Discussions**: [GitHub Discussions](https://github.com/Amanbig/NextPython-cli/discussions)
 
 ---
 

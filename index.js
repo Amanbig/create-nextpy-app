@@ -8,7 +8,10 @@ import { promises as fs } from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import npm from 'npm-programmatic';
+import { exec } from 'child_process';
+import { promisify } from 'util';
 
+const execAsync = promisify(exec);
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 console.log(chalk.cyan(figlet.textSync('NextPython')));
@@ -61,6 +64,7 @@ async function promptInputs(options) {
 
 async function createProjectStructure(projectName, languageChoice = 'JavaScript', useTailwind = false) {
   const backendTemplateDir = path.join(__dirname, 'backend_folder');
+  const frontendTemplateDir = path.join(__dirname, 'frontend_folder');
   const projectPath = path.join(process.cwd(), projectName);
   const frontendPath = path.join(projectPath, 'frontend');
   const backendPath = path.join(projectPath, 'backend');
@@ -88,7 +92,44 @@ async function createProjectStructure(projectName, languageChoice = 'JavaScript'
       { cwd: projectPath, stdio: "inherit" }
     );
 
+    // Copy frontend template files to the created NextJS app
+    const frontendSrcPath = path.join(frontendPath, 'src');
+    
+    // Copy API routes
+    await fs.cp(
+      path.join(frontendTemplateDir, 'src', 'app', 'api'),
+      path.join(frontendSrcPath, 'app', 'api'),
+      { recursive: true }
+    );
+    
+    // Copy components
+    await fs.cp(
+      path.join(frontendTemplateDir, 'src', 'components'),
+      path.join(frontendSrcPath, 'components'),
+      { recursive: true }
+    );
+    
+    // Copy lib utilities
+    await fs.cp(
+      path.join(frontendTemplateDir, 'src', 'lib'),
+      path.join(frontendSrcPath, 'lib'),
+      { recursive: true }
+    );
+    
+    // Copy updated page.tsx
+    await fs.cp(
+      path.join(frontendTemplateDir, 'src', 'app', 'page.tsx'),
+      path.join(frontendSrcPath, 'app', 'page.tsx')
+    );
+    
+    // Copy environment and README files
+    await fs.cp(
+      path.join(frontendTemplateDir, '.env.local'),
+      path.join(frontendPath, '.env.local')
+    );
+
     spinner.succeed(chalk.green(`Project created successfully! 🚀`));
+    
   } catch (err) {
     spinner.fail(chalk.red(`Error: ${err.message}`));
     process.exit(1);

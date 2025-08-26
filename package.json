@@ -1,6 +1,6 @@
 {
   "name": "nextpython",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A powerful CLI tool for creating full-stack applications with NextJS frontend and Python FastAPI backend. Features interactive setup, cross-platform support, and pre-configured API routes.",
   "main": "index.js",
   "type": "module",
@@ -59,8 +59,8 @@
   "preferGlobal": true,
   "files": [
     "index.js",
-    "backend_folder/**/*",
-    "frontend_folder/**/*",
+    "backend_folder/",
+    "frontend_folder/",
     "README.md"
   ],
   "dependencies": {

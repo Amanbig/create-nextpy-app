@@ -82,10 +82,16 @@ async function createProjectStructure(projectName, languageChoice = 'JavaScript'
   try {
     // copy backend boilerplate files
     spinner.text = 'Setting up backend files...';
-    const files = ["requirements.txt", "app.py", ".gitignore", ".env", "package.json", "README.md"];
+    const files = ["requirements.txt", "app.py", ".env", "package.json", "README.md"];
     for (const file of files) {
       await fs.cp(path.join(backendTemplateDir, file), path.join(backendPath, file));
     }
+    
+    // Copy gitignore template as .gitignore (npm ignores .gitignore files during publish)
+    await fs.cp(
+      path.join(backendTemplateDir, 'gitignore.template'), 
+      path.join(backendPath, '.gitignore')
+    );
 
     // Detect Python command
     spinner.text = 'Detecting Python installation...';

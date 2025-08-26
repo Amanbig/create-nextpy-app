@@ -1,0 +1,25 @@
+# Files to exclude from npm package
+
+# Development files
+node_modules/
+*.log
+.DS_Store
+Thumbs.db
+
+# Git files (keep our template files)
+.git/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Test projects (if any)
+test-*/
+first/
+my-app/
+
+# Don't exclude our template files - we need them!
+# !backend_folder/**
+# !frontend_folder/**

@@ -72,6 +72,7 @@ async function createProjectStructure(projectName, languageChoice = 'JavaScript'
   const projectPath = path.join(process.cwd(), projectName);
   const frontendPath = path.join(projectPath, 'frontend');
   const backendPath = path.join(projectPath, 'backend');
+  const mainTemplatePath = path.join(__dirname, 'main_folder');
   const spinner = ora('Creating project structure...').start();
 
   await fs.mkdir(projectPath, { recursive: true });
@@ -175,13 +176,13 @@ async function createProjectStructure(projectName, languageChoice = 'JavaScript'
     
     // Copy project-level package.json for convenient scripts
     await fs.cp(
-      path.join(frontendTemplateDir, 'project-package.json'),
+      path.join(mainTemplatePath, 'project-package.json'),
       path.join(projectPath, 'package.json')
     );
     
     // Copy project README
     await fs.cp(
-      path.join(frontendTemplateDir, 'project-README.md'),
+      path.join(mainTemplatePath, 'project-README.md'),
       path.join(projectPath, 'README.md')
     );
     

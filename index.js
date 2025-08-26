@@ -118,7 +118,7 @@ async function createProjectStructure(projectName, languageChoice = 'JavaScript'
 
     // frontend setup
     spinner.text = 'Creating NextJS application (this may take a few minutes)...';
-    const langFlag = languageChoice === "TypeScript" ? "--typescript" : "";
+    const langFlag = languageChoice === "TypeScript" ? "--typescript" : "--javascript";
     const twFlag = useTailwind === "Yes" ? "--tailwind" : "";
     
     // Use more reliable flags and timeout handling

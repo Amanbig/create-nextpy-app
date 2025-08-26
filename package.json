@@ -61,6 +61,7 @@
     "index.js",
     "backend_folder/",
     "frontend_folder/",
+    "main_folder/",
     "README.md"
   ],
   "dependencies": {

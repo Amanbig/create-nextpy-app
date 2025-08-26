@@ -87,9 +87,23 @@ async function createProjectStructure(projectName, languageChoice = 'JavaScript'
       await fs.cp(path.join(backendTemplateDir, file), path.join(backendPath, file));
     }
 
+    // Detect Python command
+    spinner.text = 'Detecting Python installation...';
+    let pythonCmd = 'python';
+    try {
+      await execAsync('python --version', { cwd: backendPath });
+    } catch (error) {
+      try {
+        await execAsync('python3 --version', { cwd: backendPath });
+        pythonCmd = 'python3';
+      } catch (error2) {
+        throw new Error('Python not found. Please install Python and ensure it\'s in your PATH.');
+      }
+    }
+
     // backend setup with OS-specific commands
     spinner.text = 'Setting up Python virtual environment...';
-    await execAsync(`python -m venv venv`, { cwd: backendPath });
+    await execAsync(`${pythonCmd} -m venv venv`, { cwd: backendPath });
     
     // Install requirements using OS-specific path
     spinner.text = 'Installing Python dependencies...';

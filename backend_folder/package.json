@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "description": "Python FastAPI backend server",
   "scripts": {
-    "start": "python -c \"import subprocess, sys, os; venv_python = 'venv\\\\\\\\Scripts\\\\\\\\python.exe' if os.name == 'nt' else 'venv/bin/python'; subprocess.run([venv_python, '-m', 'uvicorn', 'app:app', '--host', '0.0.0.0', '--port', '8000'])\"",
-    "dev": "python -c \"import subprocess, sys, os; venv_python = 'venv\\\\\\\\Scripts\\\\\\\\python.exe' if os.name == 'nt' else 'venv/bin/python'; subprocess.run([venv_python, '-m', 'uvicorn', 'app:app', '--reload', '--host', '0.0.0.0', '--port', '8000'])\"",
-    "install": "python -c \"import subprocess, sys, os; pip_cmd = 'venv\\\\\\\\Scripts\\\\\\\\pip.exe' if os.name == 'nt' else 'venv/bin/pip'; subprocess.run([pip_cmd, 'install', '-r', 'requirements.txt'])\"",
+    "start": "node -e \"const { spawn } = require('child_process'); const os = require('os'); const cmd = os.platform() === 'win32' ? 'venv\\\\Scripts\\\\python.exe' : 'venv/bin/python'; spawn(cmd, ['-m', 'uvicorn', 'app:app', '--host', '0.0.0.0', '--port', '8000'], {stdio: 'inherit'});\"",
+    "dev": "node -e \"const { spawn } = require('child_process'); const os = require('os'); const cmd = os.platform() === 'win32' ? 'venv\\\\Scripts\\\\python.exe' : 'venv/bin/python'; spawn(cmd, ['-m', 'uvicorn', 'app:app', '--reload', '--host', '0.0.0.0', '--port', '8000'], {stdio: 'inherit'});\"",
+    "install": "node -e \"const { spawn } = require('child_process'); const os = require('os'); const cmd = os.platform() === 'win32' ? 'venv\\\\Scripts\\\\pip.exe' : 'venv/bin/pip'; spawn(cmd, ['install', '-r', 'requirements.txt'], {stdio: 'inherit'});\"",
     "activate": "echo 'Run: venv\\\\Scripts\\\\activate (Windows) or source venv/bin/activate (macOS/Linux)'",
     "test": "python -c \"import subprocess, sys, os; venv_python = 'venv\\\\\\\\Scripts\\\\\\\\python.exe' if os.name == 'nt' else 'venv/bin/python'; subprocess.run([venv_python, '-m', 'pytest'])\"",
     "freeze": "python -c \"import subprocess, sys, os; pip_cmd = 'venv\\\\\\\\Scripts\\\\\\\\pip.exe' if os.name == 'nt' else 'venv/bin/pip'; subprocess.run([pip_cmd, 'freeze'])\""

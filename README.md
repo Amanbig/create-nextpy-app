@@ -13,7 +13,7 @@ npx create-nextpy-app
 # Or install globally
 npm install -g create-next```bash
 # Clone the repository
-git clone https://github.com/your-username/create-nextpy-app.git
+git clone https://github.com/Amanbig/create-nextpy-app.git
 cd create-nextpy-app
 
 # Install dependencies
@@ -37,6 +37,9 @@ create-nextpy-app --help
 - 📦 **Package Scripts**: Convenient npm scripts to run both frontend and backend
 - 📚 **Documentation**: Comprehensive README files for each component
 - 🎉 **Demo Components**: Sample components showing frontend-backend communication
+- 🛡️ **Robust Error Handling**: Graceful handling of missing dependencies
+- 🔄 **Git Integration**: Automatic git initialization with fallback handling
+- 📋 **Smart Releases**: Automated publishing only when version changes
 
 ## 📋 Usage
 
@@ -197,7 +200,7 @@ npm run install
 - **Python** 3.8 or higher
 
 ### Optional
-- **Git** (for version control)
+- **Git** (for version control - automatically initialized if available)
 
 ## 🌍 Cross-Platform Support
 
@@ -238,7 +241,16 @@ Error: Python not found. Please install Python and ensure it's in your PATH.
 ```
 **Solution**: Install Python from [python.org](https://python.org) and add to PATH
 
-#### 2. Virtual Environment Creation Failed
+#### 2. Git Not Available
+```bash
+⚠️ Git not found or failed to initialize. You can initialize git manually later with: git init
+```
+**Solution**: This is not an error! The CLI continues without git and you can:
+- Install Git from [git-scm.com](https://git-scm.com)
+- Initialize git manually later: `cd your-project && git init`
+- The project works perfectly without git
+
+#### 3. Virtual Environment Creation Failed
 ```bash
 Error: python -m venv venv
 ```
@@ -247,7 +259,7 @@ Error: python -m venv venv
 - Try `python3 -m venv venv` manually
 - Check Python version: `python --version`
 
-#### 3. NextJS Creation Timeout
+#### 4. NextJS Creation Timeout
 ```bash
 NextJS creation timed out.
 ```
@@ -256,13 +268,23 @@ NextJS creation timed out.
 - Clear npm cache: `npm cache clean --force`
 - Try manual creation with provided command
 
-#### 4. Port Already in Use
+#### 5. Port Already in Use
 ```bash
 Error: Port 3000/8000 already in use
 ```
 **Solutions**:
 - Kill existing processes on those ports
 - Change ports in configuration files
+
+### Error Handling Features
+
+The CLI includes robust error handling for common scenarios:
+
+- **🐍 Python Detection**: Automatically tries `python` then `python3`
+- **🔄 Git Graceful Fallback**: Continues without git if not available
+- **⏱️ Timeout Management**: Handles slow network connections
+- **🔧 Cross-Platform**: Adapts commands for your operating system
+- **📝 Clear Messages**: Provides helpful error messages and solutions
 
 ### Getting Help
 
@@ -287,6 +309,38 @@ npm install
 npm link
 create-nextpy-app --help
 ```
+
+### Release Workflow
+
+The project includes an automated release workflow with smart version detection:
+
+#### 🚀 Automated Publishing
+- **Triggers**: Only when `package.json` version is changed on main branch
+- **Publishes to**:
+  - [npmjs.com](https://www.npmjs.com/package/create-nextpy-app)
+  - [GitHub Packages](https://github.com/Amanbig/create-nextpy-app/packages)
+- **Creates**: Automatic GitHub releases with changelogs
+
+#### 📋 Release Process
+1. Update version in `package.json`:
+   ```bash
+   npm version patch  # or minor, major
+   ```
+2. Push to main branch:
+   ```bash
+   git push && git push --tags
+   ```
+3. GitHub Actions automatically:
+   - Detects version change
+   - Builds and tests the package
+   - Publishes to npm and GitHub Packages
+   - Creates a GitHub release
+
+#### 🛡️ Safety Features
+- **Version Change Detection**: Only publishes when version actually changes
+- **Dual Publishing**: Available on both npm and GitHub Packages
+- **Dynamic Scoping**: Automatically creates scoped packages for GitHub
+- **Release Notes**: Auto-generated with installation instructions
 
 ### Contributing
 

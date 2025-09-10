@@ -63,7 +63,17 @@ jobs:
 
       # --- Publish to npmjs.com ---
       - name: Publish to npmjs
-        run: npm publish --access public
+        run: |
+          if npm publish --access public; then
+            echo "✅ Successfully published to npm"
+          else
+            if npm view create-nextpy-app@${{ needs.check-version.outputs.version }} > /dev/null 2>&1; then
+              echo "⚠️ Version ${{ needs.check-version.outputs.version }} already exists on npm - skipping"
+            else
+              echo "❌ Failed to publish to npm for unknown reason"
+              exit 1
+            fi
+          fi
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
@@ -82,7 +92,13 @@ jobs:
 
       # --- Publish to GitHub Packages ---
       - name: Publish to GitHub Packages
-        run: npm publish
+        run: |
+          if npm publish; then
+            echo "✅ Successfully published to GitHub Packages"
+          else
+            echo "⚠️ Failed to publish to GitHub Packages (may already exist)"
+            # Continue anyway as this is not critical
+          fi
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

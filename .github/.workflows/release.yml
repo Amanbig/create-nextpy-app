@@ -3,7 +3,7 @@ name: Publish to npm and GitHub Packages
 on:
   push:
     branches: [ main ]
-    paths: [ 'package.json' ]
+  workflow_dispatch: # Allow manual triggering
 
 jobs:
   check-version:
@@ -27,19 +27,26 @@ jobs:
       - name: Check if version changed
         id: check
         run: |
+          echo "=== Debug: Checking for changes ==="
+          echo "Files changed in this commit:"
+          git diff HEAD~1 HEAD --name-only
+          echo "=== Package.json check ==="
           if git diff HEAD~1 HEAD --name-only | grep -q "package.json"; then
+            echo "package.json was modified"
             CURRENT_VERSION=$(jq -r '.version' package.json)
             PREVIOUS_VERSION=$(git show HEAD~1:package.json | jq -r '.version')
+            echo "Current version: $CURRENT_VERSION"
+            echo "Previous version: $PREVIOUS_VERSION"
             if [ "$CURRENT_VERSION" != "$PREVIOUS_VERSION" ]; then
               echo "changed=true" >> $GITHUB_OUTPUT
-              echo "Version changed from $PREVIOUS_VERSION to $CURRENT_VERSION"
+              echo "✅ Version changed from $PREVIOUS_VERSION to $CURRENT_VERSION"
             else
               echo "changed=false" >> $GITHUB_OUTPUT
-              echo "Version unchanged: $CURRENT_VERSION"
+              echo "❌ Version unchanged: $CURRENT_VERSION"
             fi
           else
             echo "changed=false" >> $GITHUB_OUTPUT
-            echo "package.json not modified"
+            echo "❌ package.json not modified"
           fi
 
   publish:

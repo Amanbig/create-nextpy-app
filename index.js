@@ -80,6 +80,15 @@ async function createProjectStructure(projectName, languageChoice = 'JavaScript'
   await fs.mkdir(backendPath);
 
   try {
+    // git initialization in project root with error handling
+    try {
+      await execAsync('git init', { cwd: projectPath });
+      spinner.text = 'Git repository initialized...';
+    } catch (gitError) {
+      spinner.warn(chalk.yellow('Git initialization failed - continuing without git...'));
+      console.log(chalk.yellow('⚠️  Git not found or failed to initialize. You can initialize git manually later with: git init'));
+    }
+
     // copy backend boilerplate files
     spinner.text = 'Setting up backend files...';
     const files = ["requirements.txt", "app.py", ".env", "package.json", "README.md"];
@@ -208,6 +217,7 @@ async function createProjectStructure(projectName, languageChoice = 'JavaScript'
     
     // Install concurrently in the project root
     spinner.text = 'Installing project dependencies...';
+    await execAsync(`npm pkg set name="${projectName}"`, { cwd: projectPath });
     await execAsync('npm install', { cwd: projectPath });
 
     spinner.succeed(chalk.green(`Project created successfully! 🚀`));

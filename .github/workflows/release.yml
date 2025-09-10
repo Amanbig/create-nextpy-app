@@ -70,7 +70,9 @@ jobs:
       # --- Prepare for GitHub Packages ---
       - name: Change package name to scoped for GitHub
         run: |
-          npm pkg set name="@${{ github.repository_owner }}/${{ needs.check-version.outputs.package-name }}"
+          # Convert repository owner to lowercase for npm compatibility
+          OWNER_LOWERCASE=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
+          npm pkg set name="@${OWNER_LOWERCASE}/${{ needs.check-version.outputs.package-name }}"
 
       - name: Setup Node.js (GitHub Packages)
         uses: actions/setup-node@v4

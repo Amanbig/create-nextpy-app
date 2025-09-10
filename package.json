@@ -1,6 +1,6 @@
 {
   "name": "create-nextpy-app",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "description": "A powerful CLI tool for creating full-stack applications with NextJS frontend and Python FastAPI backend. Features interactive setup, cross-platform support, and pre-configured API routes.",
   "main": "index.js",
   "type": "module",

@@ -91,10 +91,16 @@ async function createProjectStructure(projectName, languageChoice = 'JavaScript'
 
     // copy backend boilerplate files
     spinner.text = 'Setting up backend files...';
-    const files = ["requirements.txt", "app.py", ".env", "package.json", "README.md"];
+    const files = ["requirements.txt", "app.py", "package.json", "README.md"];
     for (const file of files) {
       await fs.cp(path.join(backendTemplateDir, file), path.join(backendPath, file));
     }
+    
+    // Copy environment template as .env (npm ignores .env files during publish)
+    await fs.cp(
+      path.join(backendTemplateDir, '.env.template'), 
+      path.join(backendPath, '.env')
+    );
     
     // Copy gitignore template as .gitignore (npm ignores .gitignore files during publish)
     await fs.cp(
@@ -194,7 +200,7 @@ async function createProjectStructure(projectName, languageChoice = 'JavaScript'
     // Copy environment and README files
     spinner.text = 'Adding configuration files...';
     await fs.cp(
-      path.join(frontendTemplateDir, '.env.local'),
+      path.join(frontendTemplateDir, '.env.local.template'),
       path.join(frontendPath, '.env.local')
     );
     

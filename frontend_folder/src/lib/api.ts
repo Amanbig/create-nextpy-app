@@ -9,9 +9,12 @@ export interface ApiResponse<T = any> {
 }
 
 export class ApiError extends Error {
-  constructor(message: string, public status?: number) {
+  public readonly status?: number;
+
+  constructor(message: string, status?: number) {
     super(message);
-    this.name = 'ApiError';
+    this.name = "ApiError";
+    this.status = status;
   }
 }
 
@@ -20,17 +23,17 @@ export class ApiError extends Error {
  */
 export async function fetchFromBackend(): Promise<ApiResponse> {
   try {
-    const response = await fetch('/api/backend', {
-      method: 'GET',
+    const response = await fetch("/api/backend", {
+      method: "GET",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
     });
 
     const data: ApiResponse = await response.json();
 
     if (!response.ok) {
-      throw new ApiError(data.error || 'Failed to fetch data', response.status);
+      throw new ApiError(data.error || "Failed to fetch data", response.status);
     }
 
     return data;
@@ -38,35 +41,7 @@ export async function fetchFromBackend(): Promise<ApiResponse> {
     if (error instanceof ApiError) {
       throw error;
     }
-    throw new ApiError('Network error or server unavailable');
-  }
-}
-
-/**
- * Makes a POST request to the NextJS API route which forwards to Python backend
- */
-export async function sendToBackend(payload: any): Promise<ApiResponse> {
-  try {
-    const response = await fetch('/api/backend', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(payload),
-    });
-
-    const data: ApiResponse = await response.json();
-
-    if (!response.ok) {
-      throw new ApiError(data.error || 'Failed to send data', response.status);
-    }
-
-    return data;
-  } catch (error) {
-    if (error instanceof ApiError) {
-      throw error;
-    }
-    throw new ApiError('Network error or server unavailable');
+    throw new ApiError("Network error or server unavailable");
   }
 }
 
@@ -75,12 +50,12 @@ export async function sendToBackend(payload: any): Promise<ApiResponse> {
  */
 export async function apiCall<T = any>(
   endpoint: string,
-  options: RequestInit = {}
+  options: RequestInit = {},
 ): Promise<ApiResponse<T>> {
   try {
     const response = await fetch(endpoint, {
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         ...options.headers,
       },
       ...options,
@@ -89,7 +64,7 @@ export async function apiCall<T = any>(
     const data: ApiResponse<T> = await response.json();
 
     if (!response.ok) {
-      throw new ApiError(data.error || 'API call failed', response.status);
+      throw new ApiError(data.error || "API call failed", response.status);
     }
 
     return data;
@@ -97,6 +72,6 @@ export async function apiCall<T = any>(
     if (error instanceof ApiError) {
       throw error;
     }
-    throw new ApiError('Network error or server unavailable');
+    throw new ApiError("Network error or server unavailable");
   }
 }

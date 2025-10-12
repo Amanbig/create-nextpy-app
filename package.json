@@ -1,7 +1,7 @@
 {
   "name": "create-nextpy-app",
-  "version": "1.0.4",
-  "description": "A powerful CLI tool for creating full-stack applications with NextJS frontend and Python FastAPI backend. Features interactive setup, cross-platform support, and pre-configured API routes.",
+  "version": "1.1.0",
+  "description": "A powerful CLI tool for creating full-stack applications with NextJS frontend and Python backend (FastAPI or RunAPI). Features interactive setup, cross-platform support, file-based routing, and pre-configured API routes.",
   "main": "index.js",
   "type": "module",
   "bin": {
@@ -16,6 +16,8 @@
     "nextjs",
     "python",
     "fastapi",
+    "runapi",
+    "file-based-routing",
     "full-stack",
     "cli",
     "react",
@@ -59,7 +61,8 @@
   "preferGlobal": true,
   "files": [
     "index.js",
-    "backend_folder/",
+    "runapi_folder/",
+    "fastapi_folder/",
     "frontend_folder/",
     "main_folder/",
     "README.md"

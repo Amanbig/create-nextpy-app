@@ -1,6 +1,6 @@
 # NextPy Full-Stack Project
 
-A full-stack application combining NextJS frontend with Python FastAPI backend.
+A full-stack application combining NextJS frontend with Python backend (FastAPI or RunAPI).
 
 ## 🚀 Quick Start
 
@@ -23,12 +23,17 @@ project/
 │   ├── src/
 │   │   ├── app/
 │   │   │   ├── api/      # NextJS API routes
-│   │   │   └── page.tsx  # Main page
-│   │   ├── components/   # React components
-│   │   └── lib/          # Utility functions
+│   │   │   └── page.tsx  # Main page with simple demo
+│   │   ├── components/   # React components (BackendDemo)
+│   │   └── lib/          # API utilities
 │   └── package.json
-└── backend/              # Python FastAPI application
-    ├── app.py            # FastAPI server
+└── backend/              # Python backend (FastAPI or RunAPI)
+    ├── app.py (FastAPI)  # FastAPI server with traditional routing
+    │   OR
+    ├── routes/ (RunAPI)  # File-based routing structure
+    │   ├── index.py      # GET / endpoint
+    │   └── api/          # API routes
+    ├── main.py (RunAPI)  # RunAPI application entry point
     ├── requirements.txt  # Python dependencies
     ├── package.json      # Backend npm scripts
     └── venv/             # Python virtual environment
@@ -60,9 +65,13 @@ project/
 
 | Command | Description |
 |---------|-------------|
-| `npm run dev` | Start backend with hot reload |
+| `npm run dev` | Start backend with hot reload (works for both FastAPI and RunAPI) |
 | `npm run start` | Start backend in production mode |
 | `npm run install` | Install Python dependencies |
+
+**Note**: The backend automatically uses the appropriate development server:
+- **FastAPI**: Uses `uvicorn app:app --reload`
+- **RunAPI**: Uses `runapi dev` with file-based routing
 
 ## 🔧 Manual Setup
 
@@ -91,7 +100,11 @@ If you need to set up manually or troubleshoot:
 
 4. Start server:
    ```bash
+   # For FastAPI projects
    uvicorn app:app --reload
+   
+   # For RunAPI projects  
+   runapi dev
    ```
 
 ### Frontend Setup
@@ -113,10 +126,11 @@ If you need to set up manually or troubleshoot:
 
 ## 🌐 API Routes
 
-The project includes NextJS API routes that forward requests to the Python backend:
+The project includes NextJS API routes that proxy requests to the Python backend:
 
 - **GET /api/backend** - Forwards to Python backend GET endpoint
-- **POST /api/backend** - Forwards to Python backend POST endpoint
+
+The demo includes a simple GET request example to test the full-stack connection.
 
 ## 🔄 Data Flow
 
@@ -129,6 +143,7 @@ This architecture provides:
 - Centralized request handling
 - Environment-specific backend configurations
 - Server-side request processing
+- Seamless integration with both FastAPI and RunAPI backends
 
 ## 🛠️ Development Tips
 
@@ -137,6 +152,12 @@ This architecture provides:
 3. **Hot Reload**: Both frontend and backend support hot reloading
 4. **Error Handling**: Comprehensive error handling throughout the stack
 5. **TypeScript**: Full TypeScript support (if selected during setup)
+6. **Backend Choice**:
+   - **FastAPI**: Traditional routing, great for complex APIs
+   - **RunAPI**: File-based routing, perfect for organized, scalable APIs
+7. **Route Organization**: 
+   - **FastAPI**: Routes defined in `app.py`
+   - **RunAPI**: Routes organized in `routes/` folder structure
 
 ## 🚨 Troubleshooting
 
@@ -150,7 +171,12 @@ This architecture provides:
    - Recreate venv: `python -m venv venv`
    - Ensure Python is in PATH
 
-3. **Package Installation Errors**:
+3. **Backend Framework Issues**:
+   - **RunAPI not found**: Ensure `pip install runapi` was successful
+   - **Routes not loading**: Check file naming in `routes/` folder
+   - **FastAPI import errors**: Verify virtual environment activation
+
+4. **Package Installation Errors**:
    - Clear npm cache: `npm cache clean --force`
    - Delete node_modules and reinstall
 
@@ -167,14 +193,19 @@ This architecture provides:
 ## 📦 Dependencies
 
 ### Frontend
-- Next.js 14+
+- Next.js 15+
 - React 18+
 - Tailwind CSS (if selected)
 - TypeScript (if selected)
 
 ### Backend
+**FastAPI Projects:**
 - FastAPI
 - Uvicorn
+- Python 3.8+
+
+**RunAPI Projects:**
+- RunAPI (includes FastAPI)
 - Python 3.8+
 
 ### Development

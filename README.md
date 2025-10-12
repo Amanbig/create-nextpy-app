@@ -2,7 +2,7 @@
 
 # NextPy CLI
 
-A powerful command-line tool for creating full-stack applications with NextJS frontend and Python FastAPI backend.
+A powerful command-line tool for creating full-stack applications with NextJS frontend and Python backend. Choose between **FastAPI** for traditional routing or **RunAPI** for Next.js-inspired file-based routing.
 
 ## 🚀 Quick Start
 
@@ -28,9 +28,15 @@ create-nextpy-app --help
 ## ✨ Features
 
 - 🎯 **Interactive Setup**: Guided project creation with prompts
-- 🌐 **Full-Stack**: Complete NextJS + Python FastAPI integration
-- 🔄 **API Routes**: Pre-configured NextJS API routes that communicate with Python backend
+- 📁 **Dual Backend Options**: 
+  - **FastAPI**: Traditional routing with explicit route definitions
+  - **RunAPI**: File-based routing inspired by Next.js (routes folder structure)
+- 🌐 **Full-Stack Integration**: Complete NextJS + Python backend communication
+- 🔄 **API Routes**: Pre-configured NextJS API routes that proxy to Python backend
 - 🎨 **Styling Options**: Optional Tailwind CSS integration
+- 💻 **Language Support**: JavaScript or TypeScript for frontend
+- 🚀 **Development Ready**: Concurrent dev servers with npm scripts
+- 📝 **Demo Included**: Simple GET request demo to test backend connectivity
 - 📝 **Language Choice**: Support for both TypeScript and JavaScript
 - 🔧 **Cross-Platform**: Works on Windows, macOS, and Linux
 - 🐍 **Python Detection**: Automatically detects `python` or `python3` commands
@@ -53,6 +59,7 @@ The CLI will prompt you for:
 - Project name
 - Language choice (TypeScript or JavaScript)
 - Tailwind CSS preference
+- API framework choice (FastAPI or RunAPI)
 
 ### Command Line Options
 
@@ -63,6 +70,7 @@ Options:
   -p, --project <name>     Specify project name
   -l, --language <type>    Specify language (JavaScript, TypeScript)
   -t, --tailwind <type>    Specify whether to use tailwind (Yes, No)
+  -r, --api <type>         Specify API framework (FastAPI, RunAPI)
   -f, --force             Force overwrite of existing files without prompting
   -h, --help              Display help for command
   -V, --version           Display version number
@@ -71,7 +79,14 @@ Options:
 ### Examples
 
 ```bash
-# Create TypeScript project with Tailwind CSS
+# Create TypeScript project with Tailwind CSS and RunAPI
+npx create-nextpy-app -p my-app -l TypeScript -t Yes -r RunAPI
+
+# Create JavaScript project with FastAPI (traditional routing)
+npx create-nextpy-app -p my-api -l JavaScript -t No -r FastAPI
+
+# Quick setup with RunAPI (file-based routing like Next.js)
+npx create-nextpy-app -p my-runapi-app -r RunAPI
 npx create-nextpy-app --project my-app --language TypeScript --tailwind Yes
 
 # Create JavaScript project without Tailwind CSS
@@ -102,9 +117,14 @@ my-project/
 │   ├── .env.local                     # Environment variables
 │   ├── package.json                   # Frontend dependencies
 │   └── README.md                      # Frontend documentation
-└── backend/                           # Python FastAPI application
-    ├── app.py                         # FastAPI server
-    ├── requirements.txt               # Python dependencies
+└── backend/                           # Python backend (FastAPI or RunAPI)
+    ├── app.py (FastAPI)              # FastAPI server
+    │   OR                            
+    ├── routes/ (RunAPI)              # RunAPI file-based routes
+    │   ├── index.py                  # GET /
+    │   └── api/                      # API routes
+    ├── main.py (RunAPI)              # RunAPI app entry point
+    ├── requirements.txt               # Python dependencies  
     ├── package.json                   # Cross-platform npm scripts
     ├── .env                           # Backend environment variables
     ├── .gitignore                     # Git ignore rules
@@ -112,26 +132,109 @@ my-project/
     └── README.md                      # Backend documentation
 ```
 
+## 🔄 Backend Architecture: FastAPI vs RunAPI
+
+Choose the backend framework that best fits your development style:
+
+### FastAPI (Traditional Routing)
+Perfect for developers who prefer explicit route definitions and traditional API structures.
+
+```python
+# backend/app.py
+from fastapi import FastAPI
+
+app = FastAPI()
+
+@app.get("/")
+def read_root():
+    return {"message": "Hello from FastAPI!"}
+
+@app.get("/api/users")
+def get_users():
+    return {"users": []}
+
+@app.post("/api/users")
+def create_user(user: dict):
+    return {"created": user}
+```
+
+**FastAPI Benefits:**
+- ✅ Explicit route definitions
+- ✅ Mature ecosystem
+- ✅ Extensive documentation
+- ✅ Built-in OpenAPI/Swagger docs
+- ✅ Great for complex API logic
+
+### RunAPI (File-based Routing)
+Perfect for developers who love Next.js and want the same intuitive file-based routing for APIs.
+
+```
+backend/
+├── routes/
+│   ├── index.py          # GET /
+│   └── api/
+│       ├── users.py      # GET,POST /api/users  
+│       └── users/
+│           └── [id].py   # GET,PUT,DELETE /api/users/{id}
+└── main.py
+```
+
+```python
+# backend/routes/index.py
+from runapi import JSONResponse
+
+async def get():
+    return JSONResponse({"message": "Hello from RunAPI!"})
+
+# backend/routes/api/users.py  
+from runapi import JSONResponse, Request
+
+async def get():
+    return JSONResponse({"users": []})
+
+async def post(request: Request):
+    body = await request.json()
+    return JSONResponse({"created": body})
+```
+
+**RunAPI Benefits:**
+- ✅ File structure = API structure
+- ✅ Next.js-inspired developer experience
+- ✅ Dynamic routes with `[id].py` syntax
+- ✅ Built on FastAPI (same performance)
+- ✅ Perfect for developers familiar with Next.js
+
+### When to Choose Which?
+
+| Choose FastAPI | Choose RunAPI |
+|----------------|---------------|
+| Traditional API development | Next.js-style file routing |
+| Complex route logic | Clean, organized structure |
+| Team familiar with FastAPI | Team loves Next.js approach |
+| Existing FastAPI codebase | New projects |
+| Need maximum control | Want rapid development |
+
 ## 🎯 What Gets Created
 
 ### Frontend (NextJS)
 - ⚡ **NextJS 15** with App Router
 - 🎨 **Tailwind CSS** (optional)
 - 📝 **TypeScript/JavaScript** support
-- 🔄 **API Routes** that forward to Python backend
-- 🧩 **Demo Components** showing GET/POST requests
+- 🔄 **API Routes** that proxy to Python backend
+- 🧩 **Demo Component** with simple GET request example
 - 📱 **Responsive Design** with modern UI
 - ⚠️ **Error Handling** with user feedback
 - 🔧 **ESLint** configuration
 
-### Backend (Python FastAPI)
-- 🚀 **FastAPI** with automatic OpenAPI docs
-- 🌐 **CORS** configured for NextJS frontend
+### Backend (FastAPI or RunAPI)
+- 🚀 **FastAPI**: Traditional routing with automatic OpenAPI docs
+- 📁 **RunAPI**: File-based routing inspired by Next.js
+- 🌐 **CORS** configured for NextJS frontend  
 - 🐍 **Virtual Environment** automatically created
 - 📦 **Dependencies** installed automatically
-- 🔄 **Hot Reload** with uvicorn
+- 🔄 **Hot Reload** with development server
 - 🔧 **Cross-Platform** npm scripts
-- 📝 **Sample Endpoints** (GET and POST)
+- 📝 **Sample GET Endpoint** for testing connectivity
 
 ### Project Root
 - 📦 **Convenient Scripts** to run both frontend and backend
@@ -183,7 +286,13 @@ npm run lint
 cd backend
 
 # Development with hot reload
-npm run dev
+npm run dev              # Works for both FastAPI and RunAPI
+
+# FastAPI: Traditional uvicorn server
+npm start               # uvicorn app:app --host 0.0.0.0 --port 8000
+
+# RunAPI: Built-in dev server with file watching
+# (npm run dev automatically uses 'runapi dev' for RunAPI projects)
 
 # Production server
 npm run start
@@ -217,10 +326,10 @@ The CLI automatically detects your operating system and uses appropriate command
 The generated application follows this architecture pattern:
 
 ```
-┌─────────────┐    ┌──────────────────┐    ┌─────────────────┐
-│   Frontend  │───▶│ NextJS API Routes│───▶│ Python Backend  │
-│   (React)   │    │   (/api/backend) │    │   (FastAPI)     │
-└─────────────┘    └──────────────────┘    └─────────────────┘
+┌─────────────┐    ┌──────────────────┐    ┌─────────────────────┐
+│   Frontend  │───▶│ NextJS API Routes│───▶│   Python Backend    │
+│   (React)   │    │   (/api/backend) │    │ (FastAPI / RunAPI)  │
+└─────────────┘    └──────────────────┘    └─────────────────────┘
 ```
 
 ### Benefits of This Architecture
@@ -259,7 +368,33 @@ Error: python -m venv venv
 - Try `python3 -m venv venv` manually
 - Check Python version: `python --version`
 
-#### 4. NextJS Creation Timeout
+#### 4. RunAPI Installation Failed
+```bash
+Error: Failed to install runapi
+```
+**Solutions**:
+- Ensure Python virtual environment is activated
+- Try manual installation: `pip install runapi`
+- Check Python version compatibility (3.8+)
+
+#### 5. RunAPI Init Command Failed
+```bash
+Error: runapi init command failed
+```
+**Solutions**:
+- Ensure RunAPI is properly installed: `pip list | grep runapi`
+- Try running manually: `python -m runapi init .`
+- Check virtual environment is activated
+
+#### 6. File-based Routes Not Loading (RunAPI)
+**Symptoms**: Routes in `routes/` folder not accessible
+**Solutions**:
+- Ensure files follow naming convention: `index.py`, `users.py`, `[id].py`
+- Check that functions are properly exported: `async def get():`
+- Verify `main.py` exists and creates RunAPI app
+- Restart the development server: `runapi dev`
+
+#### 7. NextJS Creation Timeout
 ```bash
 NextJS creation timed out.
 ```
@@ -268,7 +403,7 @@ NextJS creation timed out.
 - Clear npm cache: `npm cache clean --force`
 - Try manual creation with provided command
 
-#### 5. Port Already in Use
+#### 8. Port Already in Use
 ```bash
 Error: Port 3000/8000 already in use
 ```
@@ -285,6 +420,8 @@ The CLI includes robust error handling for common scenarios:
 - **⏱️ Timeout Management**: Handles slow network connections
 - **🔧 Cross-Platform**: Adapts commands for your operating system
 - **📝 Clear Messages**: Provides helpful error messages and solutions
+- **🔧 Framework Detection**: Automatically configures for FastAPI or RunAPI
+- **📁 File Structure Validation**: Ensures proper RunAPI route structure
 
 ### Getting Help
 
@@ -292,6 +429,11 @@ The CLI includes robust error handling for common scenarios:
 2. **Manual setup**: Use the manual setup instructions if CLI fails
 3. **Clear cache**: Clear npm cache and try again
 4. **Check system requirements**: Ensure all requirements are met
+5. **Framework-specific help**:
+   - FastAPI: Check [FastAPI documentation](https://fastapi.tiangolo.com/)
+   - RunAPI: Check [RunAPI repository](https://github.com/Amanbig/runapi)
+6. **Test backend directly**: Visit `http://localhost:8000` to check if backend is running
+7. **Test API routes**: Visit `http://localhost:3000/api/backend` to test NextJS → Python connection
 
 ## 🔧 Development
 
@@ -355,33 +497,55 @@ The project includes an automated release workflow with smart version detection:
 Each generated project includes comprehensive documentation:
 
 - **Project README**: Overview and quick start guide
-- **Frontend README**: NextJS-specific documentation
-- **Backend README**: Python FastAPI documentation
-- **API Documentation**: Auto-generated OpenAPI docs at `/docs`
+- **Frontend README**: NextJS-specific documentation  
+- **Backend README**: Framework-specific documentation
+  - **FastAPI**: Traditional API development with OpenAPI docs
+  - **RunAPI**: File-based routing guide with examples
+- **API Documentation**: Auto-generated docs
+  - **FastAPI**: Swagger UI at `/docs` and ReDoc at `/redoc`
+  - **RunAPI**: Built-in documentation with route discovery
 
 ## 🎯 Use Cases
 
 ### Perfect For
 - 🚀 **Rapid Prototyping**: Quickly create full-stack prototypes
 - 📚 **Learning Projects**: Learn NextJS + Python integration
-- 🏢 **Startup MVPs**: Fast MVP development
+- 🏢 **Startup MVPs**: Fast MVP development with file-based routing
 - 🎓 **Educational**: Teaching full-stack development
 - 🔬 **Experimentation**: Try new ideas quickly
+- 🎯 **Next.js Developers**: Familiar file-based routing for APIs
 
 ### Example Projects
 - **Data Dashboards**: Frontend visualization with Python data processing
 - **API Wrappers**: NextJS frontend for existing Python APIs
 - **Machine Learning Apps**: ML models in Python with React frontend
 - **CRUD Applications**: Database operations with modern UI
+- **Microservices**: RunAPI for clean, organized API structure
+- **E-commerce APIs**: File-based routes for products, users, orders
 
 ## 🔮 Roadmap
 
+### Core Features
 - [ ] Database integration options (PostgreSQL, MongoDB)
 - [ ] Authentication templates (JWT, OAuth)
 - [ ] Deployment configurations (Docker, Vercel, AWS)
 - [ ] Testing setup (Jest, Pytest)
 - [ ] CI/CD pipeline templates
 - [ ] Additional frontend frameworks (Vue, Svelte)
+
+### RunAPI Enhancements
+- [ ] WebSocket support for real-time features
+- [ ] Middleware templates (rate limiting, caching)
+- [ ] Dynamic route templates with advanced patterns
+- [ ] RunAPI plugin system integration
+- [ ] Background task examples with RunAPI
+- [ ] Database ORM integration examples
+
+### FastAPI Enhancements  
+- [ ] Advanced FastAPI templates with dependencies
+- [ ] FastAPI middleware examples
+- [ ] Custom response models and validation
+- [ ] FastAPI background tasks integration
 
 ## 📄 License
 

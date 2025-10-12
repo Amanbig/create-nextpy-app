@@ -1,7 +1,7 @@
 {
   "name": "create-nextpy-project",
   "version": "1.0.0",
-  "description": "NextJS + Python FastAPI full-stack application",
+  "description": "NextJS + Python backend (FastAPI or RunAPI) full-stack application",
   "scripts": {
     "dev": "concurrently \"npm run backend\" \"npm run frontend\"",
     "frontend": "cd frontend && npm run dev",
@@ -29,6 +29,8 @@
     "nextjs",
     "python",
     "fastapi",
+    "runapi",
+    "file-based-routing",
     "fullstack",
     "react",
     "typescript"

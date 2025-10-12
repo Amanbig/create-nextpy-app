@@ -1,0 +1,23 @@
+{
+  "name": "python-backend",
+  "version": "1.0.0",
+  "description": "RunAPI backend server with file-based routing",
+  "scripts": {
+    "start": "node -e \"const { spawn } = require('child_process'); const os = require('os'); const cmd = os.platform() === 'win32' ? 'venv\\\\Scripts\\\\python.exe' : 'venv/bin/python'; spawn(cmd, ['-m', 'runapi', 'dev'], {stdio: 'inherit'});\"",
+    "dev": "node -e \"const { spawn } = require('child_process'); const os = require('os'); const cmd = os.platform() === 'win32' ? 'venv\\\\Scripts\\\\python.exe' : 'venv/bin/python'; spawn(cmd, ['-m', 'runapi', 'dev'], {stdio: 'inherit'});\"",
+    "install": "node -e \"const { spawn } = require('child_process'); const os = require('os'); const cmd = os.platform() === 'win32' ? 'venv\\\\Scripts\\\\pip.exe' : 'venv/bin/pip'; spawn(cmd, ['install', 'runapi'], {stdio: 'inherit'});\"",
+    "activate": "echo 'Run: venv\\\\Scripts\\\\activate (Windows) or source venv/bin/activate (macOS/Linux)'",
+    "test": "python -c \"import subprocess, sys, os; venv_python = 'venv\\\\\\\\Scripts\\\\\\\\python.exe' if os.name == 'nt' else 'venv/bin/python'; subprocess.run([venv_python, '-m', 'pytest'])\"",
+    "freeze": "python -c \"import subprocess, sys, os; pip_cmd = 'venv\\\\\\\\Scripts\\\\\\\\pip.exe' if os.name == 'nt' else 'venv/bin/pip'; subprocess.run([pip_cmd, 'freeze'])\""
+  },
+  "keywords": [
+    "python",
+    "runapi",
+    "fastapi",
+    "backend",
+    "api",
+    "file-based-routing"
+  ],
+  "author": "",
+  "license": "MIT"
+}

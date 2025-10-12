@@ -169,12 +169,70 @@ async function createProjectStructure(
 
       // Initialize RunAPI project using RunAPI's built-in CLI
       spinner.text = "Initializing RunAPI project...";
-      const pythonVenvPath = isWindows
-        ? "venv\\Scripts\\python"
-        : "venv/bin/python";
-      await execAsync(`${pythonVenvPath} -m runapi init .`, {
-        cwd: backendPath,
-      });
+      const runapiPath = isWindows
+        ? "venv\\Scripts\\runapi"
+        : "venv/bin/runapi";
+
+      try {
+        // Create a temporary project with the name, then move contents to current directory
+        const tempProjectName = `temp_${projectName}`;
+
+        // Set UTF-8 encoding environment for Windows to handle Unicode emojis in RunAPI output
+        const execOptions = {
+          cwd: backendPath,
+          env: {
+            ...process.env,
+            PYTHONIOENCODING: "utf-8",
+            PYTHONUTF8: "1",
+          },
+        };
+
+        try {
+          await execAsync(`${runapiPath} init ${tempProjectName}`, execOptions);
+        } catch (unicodeError) {
+          // Fallback: Try with output redirection to avoid Unicode issues
+          spinner.text =
+            "Retrying RunAPI initialization with fallback method...";
+          const fallbackCommand = isWindows
+            ? `${runapiPath} init ${tempProjectName} > nul 2>&1`
+            : `${runapiPath} init ${tempProjectName} > /dev/null 2>&1`;
+          await execAsync(fallbackCommand, { cwd: backendPath });
+        }
+
+        // Move all files from the temp directory to the current backend directory
+        const tempProjectPath = path.join(backendPath, tempProjectName);
+        const files = await fs.readdir(tempProjectPath);
+
+        for (const file of files) {
+          const srcPath = path.join(tempProjectPath, file);
+          const destPath = path.join(backendPath, file);
+          await fs.cp(srcPath, destPath, { recursive: true });
+        }
+
+        // Remove the temporary directory
+        await fs.rm(tempProjectPath, { recursive: true, force: true });
+      } catch (runapiError) {
+        spinner.fail(chalk.red("Failed to initialize RunAPI project"));
+        console.error(chalk.yellow("RunAPI initialization error:"));
+        console.error(chalk.red(runapiError.message));
+        console.error(chalk.yellow("\n💡 Possible solutions:"));
+        console.error(
+          chalk.white(
+            "1. Ensure RunAPI is properly installed: pip install runapi",
+          ),
+        );
+        console.error(
+          chalk.white("2. Try activating the virtual environment manually:"),
+        );
+        if (isWindows) {
+          console.error(chalk.gray("   venv\\Scripts\\activate"));
+        } else {
+          console.error(chalk.gray("   source venv/bin/activate"));
+        }
+        console.error(chalk.white("3. Run the initialization manually:"));
+        console.error(chalk.gray(`   runapi init ${projectName}`));
+        throw runapiError;
+      }
 
       // Copy package.json for npm scripts
       const backendTemplateDir = path.join(__dirname, "runapi_folder");

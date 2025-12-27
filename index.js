@@ -384,7 +384,12 @@ async function createProjectStructure(
       console.log(chalk.gray("   source venv/bin/activate"));
     }
 
-    console.log(chalk.gray("   npm run dev  # or uvicorn app:app --reload"));
+    if (api === "RunAPI") {
+      console.log(chalk.gray("   npm run dev  # or runapi dev"));
+      console.log(chalk.gray("   npm start    # or runapi start (production)"));
+    } else {
+      console.log(chalk.gray("   npm run dev  # or uvicorn app:app --reload"));
+    }
 
     console.log(chalk.white("\n2. Frontend setup:"));
     console.log(chalk.gray(`   cd ${projectName}\\frontend`));

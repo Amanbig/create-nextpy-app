@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "RunAPI backend server with file-based routing",
   "scripts": {
-    "start": "node -e \"const { spawn } = require('child_process'); const os = require('os'); const cmd = os.platform() === 'win32' ? 'venv\\\\Scripts\\\\runapi.exe' : 'venv/bin/runapi'; spawn(cmd, ['dev'], {stdio: 'inherit', env: {...process.env, PYTHONIOENCODING: 'utf-8', PYTHONUTF8: '1'}});\"",
+    "start": "node -e \"const { spawn } = require('child_process'); const os = require('os'); const cmd = os.platform() === 'win32' ? 'venv\\\\Scripts\\\\runapi.exe' : 'venv/bin/runapi'; spawn(cmd, ['start'], {stdio: 'inherit', env: {...process.env, PYTHONIOENCODING: 'utf-8', PYTHONUTF8: '1'}});\"",
     "dev": "node -e \"const { spawn } = require('child_process'); const os = require('os'); const cmd = os.platform() === 'win32' ? 'venv\\\\Scripts\\\\runapi.exe' : 'venv/bin/runapi'; spawn(cmd, ['dev'], {stdio: 'inherit', env: {...process.env, PYTHONIOENCODING: 'utf-8', PYTHONUTF8: '1'}});\"",
     "install": "node -e \"const { spawn } = require('child_process'); const os = require('os'); const cmd = os.platform() === 'win32' ? 'venv\\\\Scripts\\\\pip.exe' : 'venv/bin/pip'; spawn(cmd, ['install', 'runapi'], {stdio: 'inherit'});\"",
     "activate": "echo 'Run: venv\\\\Scripts\\\\activate (Windows) or source venv/bin/activate (macOS/Linux)'",

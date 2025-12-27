@@ -23,7 +23,7 @@ console.log(chalk.cyan(figlet.textSync("NextPy")));
 program
   .name("create-nextpy-app")
   .description("CLI tool to generate nextjs frontend with python backend")
-  .version("1.0.0")
+  .version("1.1.2")
   .option("-p, --project <name>", "Specify project name")
   .option("-l, --language <type>", "Specify language (JavaScript, TypeScript)")
   .option("-t, --tailwind <type>", "Specify whether to use tailwind")

@@ -1,6 +1,6 @@
 {
   "name": "python-backend",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "RunAPI backend server with file-based routing",
   "scripts": {
     "start": "node -e \"const { spawn } = require('child_process'); const os = require('os'); const cmd = os.platform() === 'win32' ? 'venv\\\\Scripts\\\\runapi.exe' : 'venv/bin/runapi'; spawn(cmd, ['start'], {stdio: 'inherit', env: {...process.env, PYTHONIOENCODING: 'utf-8', PYTHONUTF8: '1'}});\"",

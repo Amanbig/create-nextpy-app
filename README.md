@@ -295,7 +295,7 @@ npm start               # uvicorn app:app --host 0.0.0.0 --port 8000
 # (npm run dev automatically uses 'runapi dev' for RunAPI projects)
 
 # Production server
-npm run start
+npm start               # Uses 'runapi start' (no reload)
 
 # Install Python dependencies
 npm run install

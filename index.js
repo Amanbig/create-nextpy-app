@@ -23,7 +23,7 @@ console.log(chalk.cyan(figlet.textSync("NextPy")));
 program
   .name("create-nextpy-app")
   .description("CLI tool to generate nextjs frontend with python backend")
-  .version("1.0.0")
+  .version("1.1.2")
   .option("-p, --project <name>", "Specify project name")
   .option("-l, --language <type>", "Specify language (JavaScript, TypeScript)")
   .option("-t, --tailwind <type>", "Specify whether to use tailwind")
@@ -384,7 +384,12 @@ async function createProjectStructure(
       console.log(chalk.gray("   source venv/bin/activate"));
     }
 
-    console.log(chalk.gray("   npm run dev  # or uvicorn app:app --reload"));
+    if (api === "RunAPI") {
+      console.log(chalk.gray("   npm run dev  # or runapi dev"));
+      console.log(chalk.gray("   npm start    # or runapi start (production)"));
+    } else {
+      console.log(chalk.gray("   npm run dev  # or uvicorn app:app --reload"));
+    }
 
     console.log(chalk.white("\n2. Frontend setup:"));
     console.log(chalk.gray(`   cd ${projectName}\\frontend`));
